@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import counterSlice from "../../features/counter/counterSlice";
 
 
-export class User{
+ class User{
   nickname;
   email;
 }
@@ -31,7 +31,7 @@ export const userSlice = createSlice({
   }
 });
 
-export const { setUser, setNickname, setEmail } = counterSlice.actions;
+export const { setUser, setNickname, setEmail } = userSlice.actions;
 
 
 // For getting the user's nickname
