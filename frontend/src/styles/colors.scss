@@ -1,5 +1,15 @@
 $color-black: #4f4f4f;
+$color-blue-dark: #2D728F;
+$color-blue-light: #3B8EA5;
+$color-yellow-light: #F5EE9E;
+$color-orange-light: #F49E4C;
+$color-red-dark: #AB3428;
 
 $colors: (
     'black': $color-black,
+    'blue-dark': $color-blue-dark,
+    'blue-light': $color-blue-light,
+    'yellow-light': $color-yellow-light,
+    'orange-light': $color-orange-light,
+    'reg-dark': $color-red-dark,
 );
