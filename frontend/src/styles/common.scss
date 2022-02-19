@@ -1,0 +1,21 @@
+@import 'colors.scss';
+
+body {
+    font-family: Poppins, Helvetica, sans-serif;
+    color: $color-black;
+    margin: 0;
+}
+
+.content {
+    &.flex {
+        display: flex;
+    }
+    &.flex-c {
+        display: flex;
+        flex-direction: column;
+    }
+    &.flex-r {
+        display: flex;
+        flex-direction: row;
+    }
+}
