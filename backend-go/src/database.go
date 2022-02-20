@@ -81,14 +81,9 @@ func CreateUser(c *fiber.Ctx) error {
 		return nil
 	}
 	//Add to Database
-	// This (maybe) is the correct query but the database needs to be updated to store hashed user password
-	// row := DATABASE.QueryRow(
-	// 	`INSERT INTO Users VALUES($1, $2, $3, $4, DEFAULT);`,
-	// 	user.Email, user.Name, user.Pin, user.Password)
-	// username and password are being stored as empty strings?
 	row := DATABASE.QueryRow(
-		"INSERT INTO Users VALUES($1, $2, $3, DEFAULT) RETURNING User_id;",
-		user.Email, user.Name, user.Pin)
+		"INSERT INTO Users VALUES($1, $2, $3, DEFAULT, $4) RETURNING User_id;",
+		user.Email, user.Name, user.Pin, user.Hashed_Password)
 
 	//SQL Error Check
 	if row.Err() != nil {
@@ -97,8 +92,5 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	//Success
-	// TODO: pls return me the user_id of the user that was just created
-	// this just returns null :/
-	var User_id string
-	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating User", "uid": row.Scan(&User_id)}) //Returning success
+	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating User", "uid": user.User_id}) //Returning success
 }

@@ -20,5 +20,5 @@ func RegisterRoutes(app *fiber.App) {
 func userRoutes(v fiber.Router) {
 	v.Post("/user", CreateUser)
 	v.Get("/user/:email", GetUserByEmail)
-	// v.Get("/user/:user_id", GetUser)
+	v.Get("/user/:user_id", GetUser)
 }
