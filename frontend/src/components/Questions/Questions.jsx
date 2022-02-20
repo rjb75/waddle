@@ -38,7 +38,7 @@ const Questions = (props) => {
                     { selectedQuestions[2] && <Question {...selectedQuestions[2]} />}
                 </div>
             }
-            <p className="btn btn-primary--blue-vibrant" onClick={handleSubmit} >Submit Questions</p>
+            <p className="btn btn-primary--blue-vibrant text-a-c" onClick={handleSubmit} >Submit Questions</p>
         </div>
     );
 };
