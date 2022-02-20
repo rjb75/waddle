@@ -13,7 +13,8 @@ async def get_sentiment(tokens: List[str]):
     with httpx.AsyncClient() as client:
         for token in tokens:
             response = await client.post(
-                "https://language.googleapis.com/v1beta2/documents:analyzeSentiment",
+                "https://language.googleapis.com/v1beta2/documents:analyzeSentiment?key="
+                + os.environ("GOOGLE_API_KEY"),
                 data={"document": {"type": "PLAIN_TEXT", "content": token}},
             )
             if response.status_code == 200:
