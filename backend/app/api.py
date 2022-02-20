@@ -21,12 +21,11 @@ url = "http://localhost:3000"
 @app.post('/db/user')
 async def f():
      async with httpx.AsyncClient() as client:
-        response = await client.post(url + "/api/v1/test", data={
+        response = await client.post(url + "/api/v1/user", data={
             'Email': 'horses@horses', 
             'Name': 'Da Horse',
-            'Pin': 51231})
+            'Pin': "51231"})
         return response.text
-
 
 @app.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
