@@ -1,6 +1,6 @@
 import httpx
 from app.dependencies import auth, models
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -14,7 +14,6 @@ async def read_current_user(current_user: models.UserInDB = Depends(auth.get_cur
 
 
 @router.post("")
-# @router.post("", response_model=models.UserOut)
 async def create_user(user_in: models.UserIn):
     hashed_password = auth.get_password_hash(user_in.password)
     user = models.UserIn(**user_in.dict(exclude={"password"}), password=hashed_password)
@@ -23,13 +22,17 @@ async def create_user(user_in: models.UserIn):
             f"{API_BASE_URL}/api/v1/user",
             data=user.dict(),
         )
-        # user_out = models.UserOut(**user.dict(), uid=response.json()["data"]["uid"])
-        # return user_out
-        return response.json()
+        if response.json()["status"] == "success":
+            return response.json()
+        else:
+            raise HTTPException(status_code=400, detail=response.json()["type"])
 
 
 @router.get("/{email}")
 async def get_user(email: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{API_BASE_URL}/api/v1/user/{email}")
-        return response.json()
+        if response.json()["status"] == "success":
+            return response.json()
+        else:
+            raise HTTPException(status_code=400, detail=response.json()["type"])
