@@ -19,14 +19,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # Change Later
 API_BASE_URL = "http://localhost:3000"
 
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$2b$12$JwIVn5mBdH8wdJvq4u5qQuxyqQgmWFBQw4EKewiOtPGQL6ZgEAvpa",
-    }
-}
-
 
 class Token(BaseModel):
     access_token: str
