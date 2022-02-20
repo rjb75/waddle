@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/gofiber/fiber/v2"
 	"db/wadle/models"
 	_ "github.com/lib/pq"
 )
@@ -42,22 +43,17 @@ func ExecuteSQLFile(filePath string) {
 	}
 }
 
-//c *fiber.Ctx
-func CreateUser() error {
-
+func CreateUser(c *fiber.Ctx) error {
+    fmt.Println("HASDSAD")
 	//Load Model
 	user := new(models.User)
-	user.Email = "bobby@bobb.com"
-	user.Name = "bobby"
-	user.Pin = 1234
-
-	//err := c.BodyParser(user)
+	err := c.BodyParser(user)
 
 	//Handling Errors
-	// if err != nil {
-	// 	c.Status(400).JSON(fiber.Map{"error": "failed to process inputs", "data": err})
-	// 	return nil
-	// }
+	if err != nil {
+		c.Status(400).JSON(fiber.Map{"error": "failed to process inputs", "data": err})
+		return nil
+	}
 	//Add to Database
 	row := DATABASE.QueryRow(
 		`INSERT INTO Users VALUES($1, $2, $3, DEFAULT);`,
@@ -65,12 +61,10 @@ func CreateUser() error {
 
 	//SQL Error Check
 	if row.Err() != nil {
-		fmt.Println("ADASDA")
 		fmt.Println(row.Err())
-	//	return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Creating Ticket failed"}) //Returning success
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Creating User failed"}) //Returning success
 	}
 
 	//Success
-	//return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating Ticket"}) //Returning success
-	return nil
+	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating User"}) //Returning success
 }
