@@ -20,6 +20,7 @@ const Registration = () => {
       <label>
         <input type="type" name="pin" placeholder="Create a 4-digit Pin" />
       </label>
+      <button>Sign Up</button>
     </div>
   );
 };
