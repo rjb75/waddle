@@ -19,9 +19,3 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.0.0-20220111092808-5a964db01320 // indirect
 )
-
-// replace ucalgary.ca/cpsc441/eventmanagment/models => ./models
-
-// replace ucalgary.ca/cpsc441/eventmanagment/database => ./database
-
-// replace ucalgary.ca/cpsc441/eventmanagment/routes => ./routes
