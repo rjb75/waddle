@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS QUESTIONS
   Category VARCHAR(64),
   Question VARCHAR(254),
   Type VARCHAR(64),
-  Suggestions VARCHAR(254),
+  Suggestions text[],
   PRIMARY KEY(Question_id)
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS QUESTIONS
 CREATE TABLE IF NOT EXISTS RESPONSE
 (
   Response_id UUID NOT NULL DEFAULT uuid_generate_v1(),
-  data VARCHAR(254),
+  data text[],
   date DATE,
   Questions_id UUID NOT NULL,
   User_id UUID NOT NULL,
