@@ -134,17 +134,32 @@ func GetSupport(c *fiber.Ctx) error {
 }
 
 func GetAllQuestions(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Questions;")
+	rows, err := DATABASE.Query("SELECT * FROM Questions;")
 
-	var s models.Question
-	err := result.Scan(&s.Question_id, &s.Category, &s.Question, &s.Type, &s.Suggestions)
+	
+	if err != nil {
+		fmt.Println(err)
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+	}
+
+	var stable []models.Question
+	for rows.Next() {
+		var s models.Question
+		err := rows.Scan(&s.Question_id, &s.Category, &s.Question, &s.Type, &s.Suggestions)
+		if err != nil {
+			fmt.Println(err)
+			return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+		}
+		stable = append(stable, s)
+	}
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
 }
+
 
 
 func GetQuestion(c *fiber.Ctx) error {
@@ -253,3 +268,31 @@ func GetSupportBySupporterId(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
 }
+
+func GetAllResponseWithUser(c *fiber.Ctx) error {
+	rows, err := DATABASE.Query("SELECT * FROM Response WHERE User_id='" + c.Params("user_id") + "';")
+
+	
+	if err != nil {
+		fmt.Println(err)
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+	}
+
+	var stable []models.Response
+	for rows.Next() {
+		var s models.Response
+		err := rows.Scan(&s.Response_id, &s.Data, &s.Date, &s.User_id, &s.Questions_id)
+		if err != nil {
+			fmt.Println(err)
+			return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+		}
+		stable = append(stable, s)
+	}
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
+}
+
