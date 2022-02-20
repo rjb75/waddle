@@ -9,9 +9,6 @@ import Questions from "../components/Questions/Questions";
 import ReactModal from "react-modal";
 import { useSelector } from "react-redux";
 import { selectNickname } from "../app/reducers/UserSlice";
-import { useSelector } from "react-redux";
-
-import ReactModal from "react-modal";
 
 const Dashboard = () => {
   const [questionModal, setQuestionModal] = useState(false);
