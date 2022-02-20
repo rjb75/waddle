@@ -29,7 +29,6 @@ class QuestionBase(BaseModel):
     category: str
     question: str
     type: str
-    suggestions: List[str]
 
 
 class QuestionIn(QuestionBase):
