@@ -1,0 +1,66 @@
+@import '../styles/colors.scss';
+
+.page-content {
+    &.dashboard {
+        .message-area {
+            width: 100%;
+            .dashboard-bg {
+                position: relative;
+                top: 0;
+                width: 100%;
+                height: min-content;
+            }
+            .dashboard-text {
+                padding: 20px 30px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                >p {
+                    margin: 0;
+                    text-align: right;
+                }
+                .dashboard-name {
+                    font-weight: 800;
+                    font-size: 3rem;
+                }
+                .dashboard-message {
+                    line-height: 0rem;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+
+        .daily-tip {
+            padding: 1rem 1.5rem;
+            .tip-box {
+                background-color: $color-blue-dark;
+                padding: 15px;
+                border-radius: 17px;
+                position: relative;
+                .tip-tag {
+                    position: absolute;
+                    top: -35px;
+                    left: 25px;
+                    background-color: white;
+                    border-radius: 17px;
+                    padding: 5px 10px;
+                    color: $color-grey-light;
+                    font-style: italic;
+                }
+                .tip-text {
+                    color: $color-white;
+                }
+            }
+        }
+
+        .dashboard-section {
+            color: $color-grey-light;
+            padding: 5px 2rem;
+            .title {
+                font-weight: 800;
+                font-size: 1.5rem;
+                color: $color-black;
+            }
+        }
+    }
+}
