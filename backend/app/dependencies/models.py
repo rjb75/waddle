@@ -16,7 +16,7 @@ class UserIn(UserBase):
 
 
 class UserOut(UserBase):
-    uid: int
+    uid: str
 
 
 class UserInDB(UserOut):
@@ -37,7 +37,7 @@ class QuestionIn(QuestionBase):
 
 
 class QuestionOut(QuestionBase):
-    qid: int
+    qid: str
 
 
 class QuestionInDB(QuestionOut):
@@ -46,8 +46,8 @@ class QuestionInDB(QuestionOut):
 
 # Responses
 class ResponseBase(BaseModel):
-    uid: int
-    qid: int
+    uid: str
+    qid: str
     values: List[str]
     date: date
 
@@ -57,7 +57,7 @@ class ResponseIn(ResponseBase):
 
 
 class ResponseOut(ResponseBase):
-    rid: int
+    rid: str
 
 
 class ResponseInDB(ResponseOut):
@@ -66,8 +66,8 @@ class ResponseInDB(ResponseOut):
 
 # Support Networks
 class SupportNetworkBase(BaseModel):
-    owner_uid: int
-    member_uid: int
+    owner_uid: str
+    member_uid: str
     sharing: int  # 0, 1, 2
 
 
@@ -76,7 +76,7 @@ class SupportNetworkIn(SupportNetworkBase):
 
 
 class SupportNetworkOut(SupportNetworkBase):
-    snid: int
+    snid: str
 
 
 class SupportNetworkInDB(SupportNetworkOut):
