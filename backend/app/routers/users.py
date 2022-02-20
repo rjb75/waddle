@@ -31,7 +31,7 @@ async def create_user(user_in: models.UserIn):
 @router.get("/{email}")
 async def get_user(email: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{API_BASE_URL}/api/v1/user/{email}")
+        response = await client.get(f"{API_BASE_URL}/api/v1/user/email/{email}")
         if response.json()["status"] == "success":
             return response.json()
         else:
