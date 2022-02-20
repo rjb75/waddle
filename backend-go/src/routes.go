@@ -13,7 +13,7 @@ func RegisterRoutes(app *fiber.App) {
 	v1 := api.Group("/v1")   // /api/v1
 
 	personRoutes(v1)
-
+	CreateUser()
 }
 
 
