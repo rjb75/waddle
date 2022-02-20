@@ -1,0 +1,14 @@
+.settings-item {
+    padding: 10px 20px;
+    .settings-text {
+        p {
+            margin: 0;
+        }
+        .settings-name {
+            font-weight: 700;
+        }
+    }
+    .settings-icon {
+        width: 20%;
+    }
+}
