@@ -35,7 +35,8 @@ const Login = () => {
     }
   };
 
-  const handleRegistration = () => {
+  // Go to register page
+  const handleRegisterRedirect = () => {
     dispatch(setPage(Pages.Registration));
   };
 
@@ -69,7 +70,7 @@ const Login = () => {
         </h3>
         <button
           className="btn btn-secondary--blue-vibrant "
-          onClick={() => handleRegistration()}
+          onClick={() => handleRegisterRedirect()}
         >
           Don't Have an Account? Register Here
         </button>
