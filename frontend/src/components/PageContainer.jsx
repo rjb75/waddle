@@ -12,6 +12,7 @@ import Settings from "../pages/Settings";
 import Peers from "../pages/Peers";
 import NavBar from "./NavBar";
 import "./PageContainer.scss";
+import Login from "./Authentication/Login";
 
 const PageContainer = () => {
   const dispatch = useDispatch();
@@ -24,12 +25,32 @@ const PageContainer = () => {
   return (
     <div className="flex-c page-parent">
       <div className="page-container">
-        {currentPage === Pages.History && <History />}
-        {currentPage === Pages.Dashboard && <Dashboard />}
-        {currentPage === Pages.Peers && <Peers />}
-        {currentPage === Pages.Settings && <Settings />}
+        {currentPage === Pages.History && (
+          <>
+            <History />
+            <NavBar />
+          </>
+        )}
+        {currentPage === Pages.Dashboard && (
+          <>
+            <Dashboard />
+            <NavBar />
+          </>
+        )}
+        {currentPage === Pages.Peers && (
+          <>
+            <Peers />
+            <NavBar />
+          </>
+        )}
+        {currentPage === Pages.Settings && (
+          <>
+            <Settings />
+            <NavBar />
+          </>
+        )}
+        {currentPage === Pages.Login && <Login />}
       </div>
-      <NavBar />
     </div>
   );
 };
