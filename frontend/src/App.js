@@ -3,12 +3,13 @@ import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.scss';
 import NavBar from './components/NavBar';
+import PageContainer from './components/PageContainer';
 
 function App() {
   return (
 
     <div>
-      <h1>TESTING BROOKE</h1>
+      <PageContainer />
       <NavBar />
     </div>
     // <div className="App">
