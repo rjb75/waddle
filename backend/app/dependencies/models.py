@@ -1,4 +1,5 @@
 from datetime import date
+from typing import List
 
 from pydantic import BaseModel, EmailStr
 
@@ -28,7 +29,7 @@ class QuestionBase(BaseModel):
     category: str
     question: str
     type: str
-    suggestions: list[str]
+    suggestions: List[str]
 
 
 class QuestionIn(QuestionBase):
@@ -47,7 +48,7 @@ class QuestionInDB(QuestionOut):
 class ResponseBase(BaseModel):
     uid: int
     qid: int
-    values: list[str]
+    values: List[str]
     date: date
 
 
@@ -67,7 +68,7 @@ class ResponseInDB(ResponseOut):
 class SupportNetworkBase(BaseModel):
     owner_uid: int
     member_uid: int
-    sharing: int # 0, 1, 2
+    sharing: int  # 0, 1, 2
 
 
 class SupportNetworkIn(SupportNetworkBase):
