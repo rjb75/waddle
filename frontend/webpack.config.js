@@ -82,7 +82,8 @@ module.exports = {
       favicon: './public/favicon.ico',
       manifest: './public/manifest.json',
       icon192: './public/logo192.png',
-      icon512: './public/lgoo512.png',
+      icon512: './public/logo512.png',
+      emojiSentiment: './public/emoji-sentiment.json',
     }),
   ],
 };
