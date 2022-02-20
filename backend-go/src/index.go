@@ -29,7 +29,7 @@ func main() {
 	// app.Get("/go/api/v1/test", func(c *fiber.Ctx) error {
 	// 	return c.SendString("Hello, World!")
 	//   })
-	CreateRoutes(app)
+	RegisterRoutes(app)
 
 	//	SERVER_PORT := os.Getenv("PORT")
 	//port := fmt.Sprintf(":%s", 8000)
