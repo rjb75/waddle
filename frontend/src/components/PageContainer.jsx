@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
-import { selectPage, selectPrevPage, setPage } from "../app/reducers/RoutingSlice"
+import {
+  selectPage,
+  selectPrevPage,
+  setPage,
+} from "../app/reducers/RoutingSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { current } from "@reduxjs/toolkit";
-import { Dashboard as DashboardPage, History as HistoryPage, Peers as PeersPage, Settings as SettingsPage } from "../pages/PageEnums";
+import { useEffect } from "react";
+import { Pages } from "../pages/PageEnums";
 import Dashboard from "../pages/Dashboard";
 import History from "../pages/History";
 import Settings from "../pages/Settings";
 import Peers from "../pages/Peers";
-
+import React from "react";
 
 const PageContainer = () => {
   const currentPage = useSelector(selectPage);
@@ -17,14 +20,16 @@ const PageContainer = () => {
   useEffect(() => {
     setPage(currentPage);
   }, [currentPage]);
-  return (<div>
-    {currentPage === HistoryPage && <History />}{currentPage === HistoryPage && <DashboardPage />}{currentPage === PeersPage && <Peers />}{currentPage === SettingsPage && <Settings />}
-
-
+  return (
+    <div>
+      {currentPage === Pages.History && <History />}
+      {currentPage === Pages.Dashboard && <Dashboard />}
+      {currentPage === Pages.Peers && <Peers />}
+      {currentPage === Pages.Settings && <Settings />}
     </div>
   );
-}
+};
 
 export default PageContainer;
 
-      // {/* {currentPage === History && <History />}{currentPage === Dashboard && <Dashboard />}{currentPage === Peers && <Peers />}{currentPage === Settings && <Settings />} */}
+// {/* {currentPage === History && <History />}{currentPage === Dashboard && <Dashboard />}{currentPage === Peers && <Peers />}{currentPage === Settings && <Settings />} */}
