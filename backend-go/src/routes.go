@@ -36,5 +36,5 @@ func userRoutes(v fiber.Router) {
 	v.Get("/support/supportee/:supportee_id", GetSupportBySupporteeId)
 	v.Get("/support/supporter/:supporter_id", GetSupportBySupporterId)
 	v.Get("/response/user/:user_id", GetAllResponseWithUser)
-
+	v.Get("/suggestions", GetAllSuggestions)
 }
