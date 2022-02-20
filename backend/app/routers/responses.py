@@ -1,5 +1,3 @@
-from typing import List
-
 import httpx
 from app.dependencies import models
 from fastapi import APIRouter, HTTPException

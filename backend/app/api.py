@@ -3,12 +3,14 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 
 from app.dependencies import auth
-from app.routers import questions, sentiment, users
+from app.routers import questions, sentiment, responses, supports, users
 
 app = FastAPI()
-app.include_router(users.router)
+app.include_router(responses.router)
+app.include_router(supports.router)
 app.include_router(questions.router)
 app.include_router(sentiment.router)
+app.include_router(users.router)
 
 
 @app.post("/token")
