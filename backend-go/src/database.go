@@ -178,13 +178,13 @@ func CreateResponse(c *fiber.Ctx) error {
 
 	//Handling Errors
 	if err != nil {
-		c.Status(400).JSON(fiber.Map{"error": "failed to process inputs", "data": err})
-		return nil
+		return c.Status(400).JSON(fiber.Map{"status": "fail", "type": err, "data": err})
 	}
+
 	//Add to Database
 	row := DATABASE.QueryRow(
-		"INSERT INTO Response VALUES( $1, $2, $3, $4, $5) RETURNING Response_id;",
-		s.Response_id, s.Data, s.Date, s.User_id, s.Questions_id)
+		"INSERT INTO Response VALUES(DEFAULT, $1, $2, $3, $4);",
+		s.Data, s.Date, s.Questions_id, s.User_id)
 
 	//SQL Error Check
 	if row.Err() != nil {

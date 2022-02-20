@@ -1,3 +1,4 @@
+import json
 import os
 
 import httpx
@@ -9,10 +10,15 @@ router = APIRouter(prefix="/responses", tags=["responses"])
 
 @router.post("")
 async def create_response(response_in: models.ResponseIn):
+    data = {
+        "Data": ",".join(response_in.values),
+        "Date": response_in.date,
+        "User_id": response_in.uid,
+        "Questions_id": response_in.qid,
+    }
+
     async with httpx.AsyncClient() as client:
-        response = await client.post(
-            f"{os.environ['BASE_API_URL']}/api/v1/response", data=response_in.dict()
-        )
+        response = await client.post(f"{os.environ['BASE_API_URL']}/api/v1/response", data=data)
         if response.json()["status"] == "success":
             return response.json()
         else:
