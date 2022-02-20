@@ -35,11 +35,11 @@ CREATE TABLE IF NOT EXISTS QUESTIONS
 CREATE TABLE IF NOT EXISTS RESPONSE
 (
   Response_id UUID NOT NULL DEFAULT uuid_generate_v1(),
-  data text[],
-  date DATE,
+  Data text,
+  Date DATE,
   Questions_id UUID NOT NULL,
   User_id UUID NOT NULL,
-  PRIMARY KEY(response_id),
+  PRIMARY KEY(Response_id),
   FOREIGN KEY (Questions_id) REFERENCES QUESTIONS(Question_id),
   FOREIGN KEY (User_id) REFERENCES USERS(User_id)
 );

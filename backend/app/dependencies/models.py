@@ -48,7 +48,7 @@ class ResponseBase(BaseModel):
     uid: str
     qid: str
     values: List[str]
-    date: date
+    date: str
 
 
 class ResponseIn(ResponseBase):
