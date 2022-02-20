@@ -2,10 +2,7 @@ import json
 import os
 from typing import List
 
-import dotenv
 import httpx
-
-dotenv.load_dotenv("../.env")
 
 
 def get_emoji_sentiment(emoji: dict):
