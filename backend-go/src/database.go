@@ -58,10 +58,10 @@ func GetUser(c *fiber.Ctx) error {
 }
 
 func GetUserByEmail(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Users WHERE Email='" + c.Params("email") + "';")
+	result := DATABASE.QueryRow("SELECT * FROM USERS WHERE EMAIL='" + c.Params("email") + "';")
 
 	var user models.User
-	err := result.Scan(&user.Email, &user.Name, &user.Pin, &user.User_id)
+	err := result.Scan(&user.Email, &user.Name, &user.Pin, &user.User_id, &user.Hashed_Password)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
@@ -116,7 +116,6 @@ func CreateSupport(c *fiber.Ctx) error {
 		fmt.Println(row.Err())
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Creating Support failed"}) //Returning failure
 	}
-
 	//Success
 	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating Support", "sid": row}) //Returning success
 }
@@ -202,11 +201,10 @@ func GetResponse(c *fiber.Ctx) error {
 
 
 func GetSupportBySupporteeId(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Support WHERE Supportee_id='" + c.Params("Supportee_id") + "';")
+	result := DATABASE.QueryRow("SELECT * FROM Supports WHERE Supportee_id='" + c.Params("supportee_id") + "';")
 
 	var s models.Support
-	err := result.Scan(&s.Supportee_id, &s.Supporter_id, &s.Sharing_level,  &s.Support_id)
-
+	err := result.Scan(&s.Support_id, &s.Supportee_id, &s.Supporter_id, &s.Sharing_level)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
 	}
@@ -215,10 +213,10 @@ func GetSupportBySupporteeId(c *fiber.Ctx) error {
 }
 
 func GetSupportBySupporterId(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Support WHERE Supporter_id='" + c.Params("Supporter_id") + "';")
+	result := DATABASE.QueryRow("SELECT * FROM Supports WHERE Supporter_id='" + c.Params("supporter_id") + "';")
 
 	var s models.Support
-	err := result.Scan(&s.Supportee_id, &s.Supporter_id, &s.Sharing_level,  &s.Support_id)
+	err := result.Scan(&s.Support_id, &s.Supportee_id, &s.Supporter_id, &s.Sharing_level)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
