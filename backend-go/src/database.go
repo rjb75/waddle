@@ -43,6 +43,19 @@ func ExecuteSQLFile(filePath string) {
 	}
 }
 
+func GetUser(c *fiber.Ctx) error {
+	result := DATABASE.QueryRow("SELECT * FROM Users Where User_id='" + c.Params("user_id") + "';")
+
+	var user models.User
+	err := result.Scan(&user.Email, &user.Name, &user.Pin, &user.User_id)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning success
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": user})
+}
+
 func CreateUser(c *fiber.Ctx) error {
     fmt.Println("HASDSAD")
 	//Load Model
