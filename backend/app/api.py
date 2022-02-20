@@ -6,11 +6,12 @@ import httpx
 import asyncio
 
 from app.dependencies import auth
-from app.routers import questions, users
+from app.routers import questions, sentiment, users
 
 app = FastAPI()
 app.include_router(users.router)
 app.include_router(questions.router)
+app.include_router(sentiment.router)
 
 #Change Later
 url = "http://localhost:3000"

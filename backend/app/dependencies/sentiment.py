@@ -14,4 +14,4 @@ with open("../frontend/build/emoji-sentiment.json") as f:
 
 sentiment_mean = sum([s for s, _ in emoji_sentiments]) / len(emoji_sentiments)
 emoji_sentiments = [(s - sentiment_mean, e) for s, e in emoji_sentiments]
-emoji_sentiments = sorted(emoji_sentiments, key=lambda x: x[0], reverse=True)
+emoji_sentiments = {e: s for s, e in emoji_sentiments}
