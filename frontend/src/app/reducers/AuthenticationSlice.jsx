@@ -26,5 +26,6 @@ export const authSlice = createSlice({
 export const { setAuthStatus, setToken, logOut } = authSlice.actions;
 
 export const selectAuthStatus = (state) => state.auth.loggedIn;
+export const selectToken = (state) => state.auth.token;
 
 export default routingSlice.reducer;
