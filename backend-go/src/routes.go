@@ -28,13 +28,11 @@ func userRoutes(v fiber.Router) {
 	v.Get("/questions", GetAllQuestions)
 	v.Get("/questions/:Question_id", GetQuestion)
 
-	v.Get("/answer/:User_id", GetAllUserQA)
-	v.Post("/answer", CreateAnswer)
 
 	v.Post("/response", CreateResponse)
 	v.Get("/response/:Response_id", GetResponse)
 
 	//Special
-	v.Get("/support/:Supportee_id",GetSupportBySupporteeId)
-
+	v.Get("/support/supportee/:Supportee_id", GetSupportBySupporteeId)
+	v.Get("/support/supporter/:Supporter_id", GetSupportBySupporterId)
 }

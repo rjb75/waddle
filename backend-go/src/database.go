@@ -161,46 +161,6 @@ func GetQuestion(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
 }
 
-
-func GetAllUserQA(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Answer WHERE User_id='" + c.Params("User_id") + "';")
-
-	var s models.Answer
-	err := result.Scan(&s.User_id, &s.Questions_id, &s.Response_id)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
-	}
-
-	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
-}
-
-
-func CreateAnswer(c *fiber.Ctx) error {
-	//Load Model
-	s := new(models.Answer)
-	err := c.BodyParser(s)
-
-	//Handling Errors
-	if err != nil {
-		c.Status(400).JSON(fiber.Map{"error": "failed to process inputs", "data": err})
-		return nil
-	}
-	//Add to Database
-	row := DATABASE.QueryRow(
-		"INSERT INTO Answers VALUES( $1, $2, $3);",
-		s.User_id, s.Questions_id, s.Response_id)
-
-	//SQL Error Check
-	if row.Err() != nil {
-		fmt.Println(row.Err())
-		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Creating Answer failed"}) //Returning failure
-	}
-
-	//Success
-	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating Answer"}) //Returning success
-}
-
 func CreateResponse(c *fiber.Ctx) error {
 	//Load Model
 	s := new(models.Response)
@@ -213,8 +173,8 @@ func CreateResponse(c *fiber.Ctx) error {
 	}
 	//Add to Database
 	row := DATABASE.QueryRow(
-		"INSERT INTO Response VALUES( $1, $2, $3) RETURNING Response_id;",
-		s.Response_id, s.Data, s.Date)
+		"INSERT INTO Response VALUES( $1, $2, $3, $4, $5) RETURNING Response_id;",
+		s.Response_id, s.Data, s.Date, s.User_id, s.Questions_id)
 
 	//SQL Error Check
 	if row.Err() != nil {
@@ -231,7 +191,7 @@ func GetResponse(c *fiber.Ctx) error {
 	result := DATABASE.QueryRow("SELECT * FROM Response WHERE Response_id='" + c.Params("Response_id") + "';")
 
 	var s models.Response
-	err := result.Scan(&s.Response_id, &s.Data, &s.Date)
+	err := result.Scan(&s.Response_id, &s.Data, &s.Date, &s.User_id, &s.Questions_id)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
@@ -243,6 +203,19 @@ func GetResponse(c *fiber.Ctx) error {
 
 func GetSupportBySupporteeId(c *fiber.Ctx) error {
 	result := DATABASE.QueryRow("SELECT * FROM Support WHERE Supportee_id='" + c.Params("Supportee_id") + "';")
+
+	var s models.Support
+	err := result.Scan(&s.Supportee_id, &s.Supporter_id, &s.Sharing_level,  &s.Support_id)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
+}
+
+func GetSupportBySupporterId(c *fiber.Ctx) error {
+	result := DATABASE.QueryRow("SELECT * FROM Support WHERE Supporter_id='" + c.Params("Supporter_id") + "';")
 
 	var s models.Support
 	err := result.Scan(&s.Supportee_id, &s.Supporter_id, &s.Sharing_level,  &s.Support_id)

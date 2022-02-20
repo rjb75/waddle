@@ -37,17 +37,10 @@ CREATE TABLE IF NOT EXISTS RESPONSE
   Response_id UUID NOT NULL DEFAULT uuid_generate_v1(),
   data VARCHAR(254),
   date DATE,
-  PRIMARY KEY(response_id)
-);
-
-
-CREATE TABLE IF NOT EXISTS Answers
-(
   Questions_id UUID NOT NULL,
   User_id UUID NOT NULL,
-  Response_id UUID NOT NULL,
-  PRIMARY KEY(Questions_id, User_id, Response_id),
+  PRIMARY KEY(response_id),
   FOREIGN KEY (Questions_id) REFERENCES QUESTIONS(Question_id),
-  FOREIGN KEY (User_id) REFERENCES USERS(User_id),
-  FOREIGN KEY (Response_id) REFERENCES RESPONSE(Response_id)
+  FOREIGN KEY (User_id) REFERENCES USERS(User_id)
 );
+
