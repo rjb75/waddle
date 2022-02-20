@@ -45,7 +45,6 @@ def get_password_hash(password):
 async def get_user(email: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{API_BASE_URL}/api/v1/user/email/{email}")
-        print(response.json())
         if response.json()["status"] == "success":
             user_dict = response.json()["data"]
             return models.UserInDB(
