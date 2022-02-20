@@ -20,7 +20,12 @@ async def create_user(user_in: models.UserIn):
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"{API_BASE_URL}/api/v1/user",
-            data=user.dict(),
+            data={
+                "Email": user.email,
+                "Pin": user.pin,
+                "Name": user.username,
+                "Hashed_Password": user.password,
+            },
         )
         if response.json()["status"] == "success":
             return response.json()
