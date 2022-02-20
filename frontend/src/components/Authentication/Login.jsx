@@ -9,32 +9,47 @@ import { Pages } from "../../pages/PageEnums";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAuthStatus,
+  selectToken,
+  setToken,
   setAuthStatus,
 } from "../../app/reducers/AuthenticationSlice";
+import axiosFORMInst from "../../AxiosFORM";
 
 const Login = () => {
   const [uName, setUName] = useState("");
   const [passw, setPassw] = useState("");
   const [errors, setErrors] = useState("");
-  const [retStat, setRetStat] = useState(true);
   const isAuthenticated = useSelector(selectAuthStatus);
+  const token = useSelector(selectToken);
+
   const dispatch = useDispatch();
   const handleLogin = () => {
-    //console.log({ username: username, password: password });
-    // Allows for mocked override of authentication (but actual values cannot be gotten from the server bc of a lack of login)
-    if (uName === "tempmail@temp.co" && passw === "temppass12") {
-      dispatch(setPage(Pages.Dashboard));
-    } else {
-      setErrors("Incorrect username or password. Please try again. ");
-    }
-    // Actually checks for authentication with user and pass.
-    setAuthStatus(submitLogin({ username: uName, password: passw }));
-    if (isAuthenticated) {
-      dispatch(setPage(Pages.Dashboard));
-    } else {
-      setErrors("OAUTH PROBLEMS ");
-    }
+    // Mouved out of AuthenticatonFunctions.jsx, because React doesn't like setting states inside try and catch statements.
+    let form = new FormData();
+    form.append("username", uName);
+    form.append("password", passw);
+    axiosFORMInst
+      .post("/token", form)
+      .then((res) => {
+        const userToken = res.data.access_token;
+        console.log(userToken);
+        dispatch(setToken(userToken));
+        dispatch(setPage(Pages.Dashboard));
+        dispatch(setAuthStatus(true));
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response.status);
+          setErrors(
+            "Sorry, it looks like something went wrong. Please try again."
+          );
+        }
+      });
   };
+
+  useEffect(() => {
+    setAuthStatus(isAuthenticated);
+  }, [isAuthenticated]);
 
   // Go to register page
   const handleRegisterRedirect = () => {
