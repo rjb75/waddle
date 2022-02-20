@@ -1,11 +1,10 @@
+import os
+
 import httpx
 from app.dependencies import sentiment
 from fastapi import APIRouter, HTTPException
 
 router = APIRouter(prefix="/sentiment", tags=["sentiment"])
-
-# Change Later
-API_BASE_URL = "http://localhost:3000"
 
 
 @router.get("")
@@ -21,7 +20,7 @@ async def get_emoji_sentiment(emoji: str):
 @router.get("/{user_id}")
 async def get_sentiment_score(user_id: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{API_BASE_URL}/api/v1/response/user/{user_id}")
+        response = await client.get(f"{os.environ['BASE_API_URL']}/api/v1/response/user/{user_id}")
         if response.json()["status"] == "success":
             tokens = response.json()["data"]
         else:

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -8,16 +9,6 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
-
-# Replace with environment variables (and a new secret key)
-# Key generated with:
-# openssl rand -hex 32
-SECRET_KEY = "119a35ad76d8a0734770d3eb926c7a0f56b34dfe785a0c46d58ada1425f49e4b"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# Change Later
-API_BASE_URL = "http://localhost:3000"
 
 
 class Token(BaseModel):
@@ -44,7 +35,7 @@ def get_password_hash(password):
 
 async def get_user(email: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{API_BASE_URL}/api/v1/user/email/{email}")
+        response = await client.get(f"{os.environ['BASE_API_URL']}/api/v1/user/email/{email}")
         if response.json()["status"] == "success":
             user_dict = response.json()["data"]
             return models.UserInDB(
@@ -69,7 +60,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     expire = datetime.utcnow() + expires_delta if expires_delta else timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, os.environ["SECRET_KEY"], algorithm=os.environ["ALGORITHM"])
     return encoded_jwt
 
 
@@ -80,7 +71,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, os.environ["SECRET_KEY"], algorithms=[os.environ["ALGORITHM"]])
         email: str = payload.get("sub")
         if email is None:
             raise credentials_exception
@@ -101,6 +92,6 @@ async def get_access_token(email: str, password: str):
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"])
     access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
