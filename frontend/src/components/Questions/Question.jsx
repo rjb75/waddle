@@ -5,11 +5,11 @@ import Picker from 'emoji-picker-react';
 import './Questions.scss';
 
 const Question = (props) => {
-    const {type, question} = props;
-    const [answer, setAnswer] = useState([]);
+const {type, question} = props;
+    const [answer, setAnswer] = useState('');
 
     const handleEmojiSelect = (e, emoji) => {
-        setAnswer(answer => [...answer, emoji]);
+        setAnswer(answer + emoji.emoji);
     };
 
     return  (
@@ -17,8 +17,11 @@ const Question = (props) => {
             <p className="question-text">{question}</p>
             {
                 type == QuestionTypes.keyword ?
-                <TextField type="text" placeholder="Enter Your Response" /> :
-                <Picker onEmojiClick={handleEmojiSelect}/>
+                <TextField type="text" placeholder="Enter Your Response" fieldValue={answer} setValue={(e) => setAnswer(e)} /> :
+                <div>
+                    <p className="text-a-c">{answer}</p>
+                    <Picker onEmojiClick={handleEmojiSelect}/>
+                </div>
             }
         </div>
     );

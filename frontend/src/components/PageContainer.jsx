@@ -24,7 +24,7 @@ const PageContainer = () => {
     setPage(currentPage);
   }, [currentPage]);
   return (
-    <div className="flex-c page-parent">
+    <div className="page-parent">
       <div className="page-container">
         {currentPage === Pages.History && (
           <>

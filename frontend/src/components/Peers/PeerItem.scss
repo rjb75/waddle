@@ -1,0 +1,14 @@
+.history-item {
+    padding: 10px 20px;
+    .history-text {
+        p {
+            margin: 0;
+        }
+        .history-date {
+            font-weight: 700;
+        }
+    }
+    .history-view-more {
+        margin-left: auto;
+    }
+}

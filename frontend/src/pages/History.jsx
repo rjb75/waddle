@@ -9,7 +9,6 @@ const History = () => {
       <div className="page-body history-listing">
         <HistoryItem message="hi" score={0.8} date={"today"} />
       </div>
-      
     </div>
   );
 };
