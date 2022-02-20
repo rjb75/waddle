@@ -17,3 +17,36 @@ body {
     display: flex;
     flex-direction: row;
 }
+
+.btn {
+    border-radius: 30px;
+    padding: 10px 15px;
+    width: fit-content;
+    text-decoration: none;
+}
+
+.btn-primary {
+    @each $key, $val in $colors {
+        &--#{$key} {
+            background-color: $val;
+            color: $color-white !important;
+            &:hover {
+                color: $color-black;
+            }
+        }
+    }
+}
+
+.btn-secondary {
+    @each $key, $val in $colors {
+        &--#{$key} {
+            color: $val !important;
+            background-color: $color-white;
+            border: 2px solid $val;
+            &:hover {
+                background-color: $val;
+                color: $color-white;
+            }
+        }
+    }
+}

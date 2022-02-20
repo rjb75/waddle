@@ -1,0 +1,16 @@
+@import 'colors.scss';
+
+.all-caps {
+    text-transform: uppercase;
+}
+
+.text {
+    @each $key, $val in $colors {
+        &--#{$key} {
+            color: $val;
+        }
+    }
+    &-link {
+        text-decoration: underline;
+    }
+}

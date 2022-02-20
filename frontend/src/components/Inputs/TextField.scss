@@ -1,0 +1,24 @@
+@import "../../styles/colors.scss";
+
+.text-field-container {
+    width: 100%;
+    .text-field {
+        display: flex;
+        width: 100%;
+        >input {
+            border-radius: 12px;
+            border: 1.5px solid $color-black;
+            padding: 10px 20px;
+            margin: 5px 0;
+            width: 100%;
+            &::placeholder {
+                color: $color-black;
+                font-style: italic;    
+            }
+            &:focus {
+                outline: none !important;
+                border: 2px solid $color-blue-vibrant;
+            }
+        }
+    }
+}
