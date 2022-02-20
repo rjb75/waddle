@@ -239,3 +239,17 @@ func GetResponse(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
 }
+
+
+func GetSupportBySupporteeId(c *fiber.Ctx) error {
+	result := DATABASE.QueryRow("SELECT * FROM Support WHERE Supportee_id='" + c.Params("Supportee_id") + "';")
+
+	var s models.Support
+	err := result.Scan(&s.Supportee_id, &s.Supporter_id, &s.Sharing_level,  &s.Support_id)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
+}
