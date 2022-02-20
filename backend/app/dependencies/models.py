@@ -66,9 +66,10 @@ class ResponseInDB(ResponseOut):
 
 # Support Networks
 class SupportNetworkBase(BaseModel):
-    owner_uid: str
-    member_uid: str
-    sharing: int  # 0, 1, 2
+    support_id: str
+    supportee_id: str
+    supporter_id: str
+    sharing_level: int  # 0, 1, 2
 
 
 class SupportNetworkIn(SupportNetworkBase):
@@ -76,7 +77,7 @@ class SupportNetworkIn(SupportNetworkBase):
 
 
 class SupportNetworkOut(SupportNetworkBase):
-    snid: str
+    support_id: str
 
 
 class SupportNetworkInDB(SupportNetworkOut):

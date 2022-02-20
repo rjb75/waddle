@@ -19,20 +19,20 @@ func RegisterRoutes(app *fiber.App) {
 
 func userRoutes(v fiber.Router) {
 	v.Post("/user", CreateUser)
-	v.Get("/user/:Email", GetUserByEmail)
-	v.Get("/user/:User_id", GetUser)
+	v.Get("/user/email/:email", GetUserByEmail)
+	v.Get("/user/:user_id", GetUser)
 
 	v.Post("/support", CreateSupport)
-	v.Get("/support/:Support_id", GetSupport)
+	v.Get("/support/:support_id", GetSupport)
 
 	v.Get("/questions", GetAllQuestions)
-	v.Get("/questions/:Question_id", GetQuestion)
+	v.Get("/questions/:question_id", GetQuestion)
 
 
 	v.Post("/response", CreateResponse)
-	v.Get("/response/:Response_id", GetResponse)
+	v.Get("/response/:response_id", GetResponse)
 
 	//Special
-	v.Get("/support/supportee/:Supportee_id", GetSupportBySupporteeId)
-	v.Get("/support/supporter/:Supporter_id", GetSupportBySupporterId)
+	v.Get("/support/supportee/:supportee_id", GetSupportBySupporteeId)
+	v.Get("/support/supporter/:supporter_id", GetSupportBySupporterId)
 }
