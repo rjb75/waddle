@@ -8,7 +8,8 @@ export const Pages = {
   Login: "login",
   Registration: "registration",
 };
-export const History = "historyBEEF";
+
+export const History = "history";
 export const Dashboard = "dashboard";
 export const Peers = "peers";
 export const Settings = "settings";
