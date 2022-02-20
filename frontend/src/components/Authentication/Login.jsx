@@ -10,8 +10,8 @@ const Login = () => {
   const [errors, setErrors] = useState("");
 
   const handleLogin = () => {
-    console.log({ email: email, password: password });
-    submitLogin({ email: email, password: password });
+    console.log({ email, password });
+    submitLogin({ email, password });
   };
 
   return (

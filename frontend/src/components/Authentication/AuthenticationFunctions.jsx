@@ -1,6 +1,5 @@
 import axiosFORMInst from "../../AxiosFORM";
 import axiosJSONInst from "../../AxiosJSON";
-import axiosInst from "../../AxiosJSON";
 
 export function passwordsMatch(props) {
   return props.password === props.confirmedPassword;
