@@ -6,6 +6,7 @@ import "./Authentication.scss";
 import { useDispatch } from "react-redux";
 import { setPage } from "../../app/reducers/RoutingSlice";
 import { Pages } from "../../pages/PageEnums";
+import axiosJSONInst from "../../AxiosJSON";
 
 const Register = () => {
   var responseMessage = "";
@@ -20,20 +21,30 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const handleRegister = () => {
-    if (
-      submitRegistration({
-        email,
-        username: name,
-        password,
-        pin: Number(pin),
-      })
-    ) {
-      responseMessage = "Registered Successfully. Please Log-in to Continue";
-    } else if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setErrors("Passwords do not match");
+      return;
     } else {
-      setErrors("Sorry, Something Went Wrong. Please Try Registering Again.");
+      setErrors("");
     }
+    axiosJSONInst
+      .post("/users", {
+        email: email,
+        password: password,
+        username: name,
+        pin: pin,
+      })
+      .then((res) => {
+        setErrors("Account created! Please log in.");
+        return;
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response.status);
+          setErrors("It looks like something went wrong. Please try again.");
+          return;
+        }
+      });
   };
 
   // Go to login page
