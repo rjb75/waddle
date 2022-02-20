@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
 
+from app.dependencies import models
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -32,15 +33,6 @@ class TokenData(BaseModel):
     username: Optional[str] = None
 
 
-class User(BaseModel):
-    username: str
-    email: Optional[str] = None
-
-
-class UserInDB(User):
-    hashed_password: str
-
-
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -55,9 +47,10 @@ def get_password_hash(password):
 
 
 def get_user(db, username: str):
+    # Will grab from Go
     if username in db:
         user_dict = db[username]
-        return UserInDB(**user_dict)
+        return models.UserInDB(**user_dict)
 
 
 def authenticate_user(fake_db, username: str, password: str):
