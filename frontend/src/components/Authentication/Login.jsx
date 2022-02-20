@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { setPage } from "../../app/reducers/RoutingSlice";
-import { setNickname } from "../../app/reducers/UserSlice";
+import { setNickname, setUID } from "../../app/reducers/UserSlice";
 import TextField from "../Inputs/TextField";
 import "./Authentication.scss";
 import { submitLogin } from "./AuthenticationFunctions";
@@ -36,8 +36,11 @@ const Login = () => {
         const getNameString = "/users/" + uName;
         axiosJSONInst.get(getNameString).then((res) => {
           dispatch(setNickname(res.data.data.Name));
+          dispatch(setUID(res.data.data.User_id));
           console.log(res.data.data.Name);
+          console.log(res.data.data.User_id);
         });
+
         const userToken = res.data.access_token;
         console.log(userToken);
         dispatch(setToken(userToken));
