@@ -5,7 +5,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-
 )
 
 func RegisterRoutes(app *fiber.App) {
@@ -18,10 +17,8 @@ func RegisterRoutes(app *fiber.App) {
 	userRoutes(v1)
 }
 
-
 func userRoutes(v fiber.Router) {
 	v.Post("/user", CreateUser)
-	v.Get("/user/:user_id", GetUser)
+	v.Get("/user/:email", GetUserByEmail)
+	// v.Get("/user/:user_id", GetUser)
 }
-
-
