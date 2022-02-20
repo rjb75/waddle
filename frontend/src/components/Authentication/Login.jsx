@@ -15,7 +15,6 @@ import {
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [failedStat, setFailedStat] = useState(false);
   const [errors, setErrors] = useState("");
   const [retStat, setRetStat] = useState(true);
   const isAuthenticated = useSelector(selectAuthStatus);
@@ -26,7 +25,7 @@ const Login = () => {
     if (email === "tempmail@temp.co" && password === "temppass12") {
       dispatch(setPage(Pages.Dashboard));
     } else {
-      setFailedStat(true);
+      setErrors("Incorrect username or password. Please try again. ");
     }
     // Actually checks for authentication with user and pass.
     setAuthStatus(submitLogin(email, password));
@@ -44,7 +43,7 @@ const Login = () => {
     <div className="login-container auth-child flex-c">
       <div className="header-container flex-c">
         <h2 className="title">Login</h2>
-        {errors && <p className="error-text text--red-dark">{errors}</p>}
+        <p className="error-text text--red-dark">{errors}</p>
       </div>
       <div className="field-container flex-c">
         <TextField
@@ -65,9 +64,7 @@ const Login = () => {
         >
           Sign In
         </button>
-        <h3>
-          {failedStat ? "Incorrect username or password. Please try again" : ""}
-        </h3>
+        <h3>{""}</h3>
         <button
           className="btn btn-secondary--blue-vibrant "
           onClick={() => handleRegisterRedirect()}
