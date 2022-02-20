@@ -1,6 +1,6 @@
+import React, { useEffect } from "react";
 import { selectPage, selectPrevPage, setPage } from "../app/reducers/RoutingSlice"
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { current } from "@reduxjs/toolkit";
 import { Dashboard as DashboardPage, History as HistoryPage, Peers as PeersPage, Settings as SettingsPage } from "../pages/PageEnums";
 import Dashboard from "../pages/Dashboard";
