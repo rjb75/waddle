@@ -3,6 +3,7 @@ import { routingSlice } from "./RoutingSlice";
 
 const initialState = {
   loggedIn: false,
+  token: null,
 };
 
 export const authSlice = createSlice({
@@ -12,10 +13,17 @@ export const authSlice = createSlice({
     setAuthStatus: (state, action) => {
       state.loggedIn = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
+    logOut: (state, action) => {
+      state.token = null;
+      state.loggedIn = false;
+    },
   },
 });
 
-export const { setAuthStatus } = authSlice.actions;
+export const { setAuthStatus, setToken, logOut } = authSlice.actions;
 
 export const selectAuthStatus = (state) => state.auth.loggedIn;
 

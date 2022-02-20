@@ -1,3 +1,7 @@
+import {
+  setAuthStatus,
+  setToken,
+} from "../../app/reducers/AuthenticationSlice";
 import axiosFORMInst from "../../AxiosFORM";
 import axiosJSONInst from "../../AxiosJSON";
 
@@ -13,13 +17,17 @@ export function submitLogin(props) {
   form.append("password", props.password);
   axiosFORMInst
     .post("/token", form)
-    .then(function (res) {
-      console.log(res.data);
-      console.log(res.status);
-      console.log(res.statusText);
-      console.log(res.headers);
-      console.log(res.config);
+    .then((res) => {
+      // console.log(res.data);
+      // console.log(res.status);
+      // console.log(res.statusText);
+      // console.log(res.headers);
+      // console.log(res.config);
       respStatus = res.status;
+      const userToken = JSON.parse(res.data).access_token;
+      console.log();
+      setToken(userToken);
+      setAuthStatus(true);
       return true;
     })
     .catch((err) => {
@@ -27,11 +35,10 @@ export function submitLogin(props) {
         console.log(err.response.status);
         returnStat = false;
       }
-      console.log(JSON.stringify(err.toJSON()));
-      console.log(err.status);
-      console.log(err.statusText);
-      console.log(err.headers);
-      console.log(err.config);
+      // console.log(err.status);
+      // console.log(err.statusText);
+      // console.log(err.headers);
+      // console.log(err.config);
       respStatus = err.statusTest;
     });
   return returnStat;

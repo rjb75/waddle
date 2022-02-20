@@ -13,24 +13,26 @@ import {
 } from "../../app/reducers/AuthenticationSlice";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [uName, setUName] = useState("");
+  const [passw, setPassw] = useState("");
   const [errors, setErrors] = useState("");
   const [retStat, setRetStat] = useState(true);
   const isAuthenticated = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
   const handleLogin = () => {
-    console.log({ email, password });
+    //console.log({ username: username, password: password });
     // Allows for mocked override of authentication (but actual values cannot be gotten from the server bc of a lack of login)
-    if (email === "tempmail@temp.co" && password === "temppass12") {
+    if (uName === "tempmail@temp.co" && passw === "temppass12") {
       dispatch(setPage(Pages.Dashboard));
     } else {
       setErrors("Incorrect username or password. Please try again. ");
     }
     // Actually checks for authentication with user and pass.
-    setAuthStatus(submitLogin(email, password));
+    setAuthStatus(submitLogin({ username: uName, password: passw }));
     if (isAuthenticated) {
       dispatch(setPage(Pages.Dashboard));
+    } else {
+      setErrors("OAUTH PROBLEMS ");
     }
   };
 
@@ -49,14 +51,14 @@ const Login = () => {
         <TextField
           type={"email"}
           placeholder={"Enter your Email"}
-          fieldValue={email}
-          setValue={(e) => setEmail(e)}
+          fieldValue={uName}
+          setValue={(e) => setUName(e)}
         />
         <TextField
           type={"password"}
           placeholder={"Enter your Password"}
-          fieldValue={password}
-          setValue={(e) => setPassword(e)}
+          fieldValue={passw}
+          setValue={(e) => setPassw(e)}
         />
         <button
           className="btn btn-primary--blue-vibrant action-button all-caps"
