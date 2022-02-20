@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { setPage } from "../../app/reducers/RoutingSlice";
+import { setNickname } from "../../app/reducers/UserSlice";
 import TextField from "../Inputs/TextField";
 import "./Authentication.scss";
 import { submitLogin } from "./AuthenticationFunctions";
@@ -14,6 +15,7 @@ import {
   setAuthStatus,
 } from "../../app/reducers/AuthenticationSlice";
 import axiosFORMInst from "../../AxiosFORM";
+import axiosJSONInst from "../../AxiosJSON";
 
 const Login = () => {
   const [uName, setUName] = useState("");
@@ -31,6 +33,11 @@ const Login = () => {
     axiosFORMInst
       .post("/token", form)
       .then((res) => {
+        const getNameString = "/users/" + uName;
+        axiosJSONInst.get(getNameString).then((res) => {
+          dispatch(setNickname(res.data.data.Name));
+          console.log(res.data.data.Name);
+        });
         const userToken = res.data.access_token;
         console.log(userToken);
         dispatch(setToken(userToken));
