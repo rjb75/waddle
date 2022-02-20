@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-//	"routes"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -20,11 +19,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	
-
-	DBConnect()
-    //ExecuteSQLFile("./database/tables.sql")
-	
+	DBConnect()	
 	RegisterRoutes(app)
 
 	SERVER_PORT := os.Getenv("PORT")
