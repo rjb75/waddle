@@ -33,4 +33,8 @@ func userRoutes(v fiber.Router) {
 
 	v.Post("/response", CreateResponse)
 	v.Get("/response/:Response_id", GetResponse)
+
+	//Special
+	v.Get("/support/:Supportee_id",GetSupportBySupporteeId)
+
 }
