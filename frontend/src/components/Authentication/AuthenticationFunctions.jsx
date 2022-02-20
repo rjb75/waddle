@@ -38,10 +38,25 @@ export function submitLogin(props) {
 }
 
 export function submitRegistration(props) {
-  axiosJSONInst.post("/users", {
-    email: props.email,
-    password: props.password,
-    username: props.username,
-    pin: props.pin,
-  });
+  axiosJSONInst
+    .post("/users", {
+      email: props.email,
+      password: props.password,
+      username: props.username,
+      pin: props.pin,
+    })
+    .then((res) => {
+      return true;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response.status);
+        return false;
+      }
+      console.log(JSON.stringify(err.toJSON()));
+      console.log(err.status);
+      console.log(err.statusText);
+      console.log(err.headers);
+      console.log(err.config);
+    });
 }

@@ -8,21 +8,32 @@ import { setPage } from "../../app/reducers/RoutingSlice";
 import { Pages } from "../../pages/PageEnums";
 
 const Register = () => {
+  var responseMessage = "";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [pin, setPin] = useState("");
   const [errors, setErrors] = useState("");
+  const [registerSuccess, setRegisterSuccess] = useState();
+  const [attemptedRegister, setAttempedRegister] = useState(false);
   const dispatch = useDispatch();
 
   const handleRegister = () => {
-    submitRegistration({
-      email,
-      username: name,
-      password,
-      pin: Number(pin),
-    });
+    if (
+      submitRegistration({
+        email,
+        username: name,
+        password,
+        pin: Number(pin),
+      })
+    ) {
+      responseMessage = "Registered Successfully. Please Log-in to Continue";
+    } else if (password !== confirmPassword) {
+      setErrors("Passwords do not match");
+    } else {
+      setErrors("Sorry, Something Went Wrong. Please Try Registering Again.");
+    }
   };
 
   // Go to login page
@@ -43,7 +54,7 @@ const Register = () => {
     <div className="register-container auth-child flex-c">
       <div className="header-container flex-c">
         <h2 className="title">Register</h2>
-        {errors && <p className="error-text text--red-dark">{errors}</p>}
+        <p className="error-text text--red-dark">{errors}</p>
       </div>
       <div className="field-container flex-c">
         <TextField
@@ -57,14 +68,14 @@ const Register = () => {
           placeholder={"Enter your Password"}
           fieldValue={password}
           setValue={(e) => setPassword(e)}
-          onChange={handleConfirmPassword}
+          onClick={() => handleConfirmPassword()}
         />
         <TextField
           type={"password"}
           placeholder={"Confirm your Password"}
           fieldValue={confirmPassword}
           setValue={(e) => setConfirmPassword(e)}
-          onChange={handleConfirmPassword}
+          onChange={() => handleConfirmPassword()}
         />
         <TextField
           type={"text"}
@@ -84,8 +95,8 @@ const Register = () => {
           onClick={() => handleRegister()}
         >
           Sign Up
-        </button>{" "}
-        <h3>{""}</h3>
+        </button>
+        <h3>{responseMessage}</h3>
         <button
           className="btn btn-secondary--blue-vibrant "
           onClick={() => handLoginRedirect()}
