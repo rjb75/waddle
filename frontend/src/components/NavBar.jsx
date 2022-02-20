@@ -6,13 +6,15 @@ const NavBar = () => {
     const currentPage = useSelector(selectPage);
     const dispatch = useDispatch();
 
+
+
     // default static icons
 
     const handleClick = (props) => {
-        if (props !== currentPage) {
+        // if (props !== currentPage) {
             dispatch(setPage(props));
 
-        }
+        // }
     };
 
     const links = [
@@ -47,7 +49,6 @@ const NavBar = () => {
                         return (<div>
                             <button key={l.name} id={l.name} onClick={() =>handleClick(l.page)}>{l.name}
                             </button>
-
                             </div>
                         )
                     }
