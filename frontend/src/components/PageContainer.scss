@@ -1,0 +1,7 @@
+.page-parent {
+    max-height: 100vh;
+    .page-container {
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+    }
+}

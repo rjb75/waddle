@@ -43,7 +43,6 @@ const Dashboard = () => {
                 <p className="title">Motivation</p>
                 <p>Based on your results, lets see how much motivation you have to do basic activities and work.</p>
             </div>
-            <NavBar />
         </div>
     )
 }
