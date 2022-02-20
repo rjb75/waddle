@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import "./Dashboard.scss";
 import DashboardBg from "../images/dashboard-background.svg";
 import Engagement from "../components/Dashboard/Engagement";
 import Happiness from "../components/Dashboard/Happiness";
 import Support from "../components/Dashboard/Support";
+import Questions from "../components/Questions/Questions";
+import ReactModal from "react-modal";
 
 const Dashboard = () => {
+
+    const [questionModal, setQuestionModal] = useState(false);
+
+    const handleQuestionSubmit = () => {
+        setQuestionModal(false);
+    }
+
     const user = {
         name: "Andrea",
     };
@@ -21,6 +30,12 @@ const Dashboard = () => {
                     <p className="dashboard-name">{user.name}</p>
                     <p className="dashboard-message">Start your day with Wadle</p>
                 </div>
+            </div>
+            <div className="flex-c complete-questions">
+                <p className="btn btn-primary--red-dark text-a-c" onClick={() => setQuestionModal(true)}>Complete your Check In</p>
+                <ReactModal isOpen={questionModal} >
+                    <Questions onClose={handleQuestionSubmit} />
+                </ReactModal>
             </div>
             <div className="daily-tip">
                 <div className="tip-container">

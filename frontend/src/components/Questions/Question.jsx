@@ -9,7 +9,6 @@ const Question = (props) => {
     const [answer, setAnswer] = useState([]);
 
     const handleEmojiSelect = (e, emoji) => {
-        console.log(emoji)
         setAnswer(answer => [...answer, emoji]);
     };
 
