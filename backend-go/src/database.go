@@ -199,28 +199,57 @@ func GetResponse(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
 }
 
-
 func GetSupportBySupporteeId(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Supports WHERE Supportee_id='" + c.Params("supportee_id") + "';")
+	rows, err := DATABASE.Query("SELECT * FROM Supports WHERE Supportee_id='" + c.Params("supportee_id") + "';")
 
-	var s models.Support
-	err := result.Scan(&s.Support_id, &s.Supportee_id, &s.Supporter_id, &s.Sharing_level)
+	
+	if err != nil {
+		fmt.Println(err)
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+	}
+
+	var stable []models.Support
+	for rows.Next() {
+		var s models.Support
+		err := rows.Scan(&s.Support_id, &s.Supportee_id, &s.Supporter_id, &s.Sharing_level)
+		if err != nil {
+			fmt.Println(err)
+			return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+		}
+		stable = append(stable, s)
+	}
+
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
 }
 
-func GetSupportBySupporterId(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Supports WHERE Supporter_id='" + c.Params("supporter_id") + "';")
 
-	var s models.Support
-	err := result.Scan(&s.Support_id, &s.Supportee_id, &s.Supporter_id, &s.Sharing_level)
+func GetSupportBySupporterId(c *fiber.Ctx) error {
+	rows, err := DATABASE.Query("SELECT * FROM Supports WHERE Supporter_id='" + c.Params("supporter_id") + "';")
+
+	
+	if err != nil {
+		fmt.Println(err)
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+	}
+
+	var stable []models.Support
+	for rows.Next() {
+		var s models.Support
+		err := rows.Scan(&s.Support_id, &s.Supportee_id, &s.Supporter_id, &s.Sharing_level)
+		if err != nil {
+			fmt.Println(err)
+			return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
+		}
+		stable = append(stable, s)
+	}
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "data": s})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
 }
