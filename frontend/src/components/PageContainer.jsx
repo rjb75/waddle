@@ -13,6 +13,7 @@ import Peers from "../pages/Peers";
 import NavBar from "./NavBar";
 import "./PageContainer.scss";
 import Login from "./Authentication/Login";
+import Register from "./Authentication/Register";
 
 const PageContainer = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const PageContainer = () => {
           </>
         )}
         {currentPage === Pages.Login && <Login />}
+        {currentPage === Pages.Registration && <Register />}
       </div>
     </div>
   );

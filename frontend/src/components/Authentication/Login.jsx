@@ -22,16 +22,21 @@ const Login = () => {
   const dispatch = useDispatch();
   const handleLogin = () => {
     console.log({ email, password });
+    // Allows for mocked override of authentication (but actual values cannot be gotten from the server bc of a lack of login)
     if (email === "tempmail@temp.co" && password === "temppass12") {
       dispatch(setPage(Pages.Dashboard));
     } else {
       setFailedStat(true);
     }
+    // Actually checks for authentication with user and pass.
     setAuthStatus(submitLogin(email, password));
     if (isAuthenticated) {
       dispatch(setPage(Pages.Dashboard));
-    } else {
     }
+  };
+
+  const handleRegistration = () => {
+    dispatch(setPage(Pages.Registration));
   };
 
   return (
@@ -62,6 +67,12 @@ const Login = () => {
         <h3>
           {failedStat ? "Incorrect username or password. Please try again" : ""}
         </h3>
+        <button
+          className="btn btn-secondary--blue-vibrant "
+          onClick={() => handleRegistration()}
+        >
+          Don't Have an Account? Register Here
+        </button>
       </div>
     </div>
   );
