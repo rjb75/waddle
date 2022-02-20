@@ -13,4 +13,21 @@
     &-link {
         text-decoration: underline;
     }
+    &-b {
+        font-weight: bold;
+    }
+    &-i {
+        font-style: italic;
+    }
+    &-a {
+        &-c {
+            text-align: center;
+        }
+        &-l {
+            text-align: left;
+        }
+        &-cr {
+            text-align: right;
+        }
+    }
 }

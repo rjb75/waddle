@@ -1,0 +1,43 @@
+.dashboard-section {
+    &.engagement {
+        .section-body {
+            .engagement-chart-container {
+                margin-right: 25px;
+                position: relative;
+                .engagement-chart-label {
+                    position: absolute;
+                    top: 40px;
+                    left: 45px;
+                }
+            }
+            
+            .metrics {
+                .metric-fact {
+                    .metric-icon {
+                        padding-right: 5px;
+                    }
+                }
+            }
+            .engagement-history-plot {
+               .engagement-history-bars {
+                   rect {
+                       rx: 6px
+                   }
+               } 
+            }
+        }
+    }
+    &.happiness {
+        .section-body {
+            align-items: center;
+            .happiness-plot {
+                padding-right: 40px;
+                .happiness-bars {
+                    rect {
+                        rx: 6px;
+                    }
+                }
+            }
+        }
+    }
+}
