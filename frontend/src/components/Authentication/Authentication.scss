@@ -1,22 +1,27 @@
 .auth-child {
     margin-top: 100px;
     align-content: center;
+
     .header-container {
         align-items: center;
+
         .title {
             font-weight: 400;
         }
     }
+
     .field-container {
         align-items: center;
         align-self: center;
         width: 75%;
+
         .action-button {
             width: 50%;
             text-align: center;
             font-weight: 700;
+            border-width: 0;
         }
-    }   
+    }
 }
 
 .splash-container {
@@ -25,25 +30,31 @@
     background-repeat: no-repeat;
     height: 100%;
     padding-top: 225px;
+
     .header-container {
         align-items: center;
+
         .splash-logo {
             height: 15rem;
         }
+
         .welcome-title {
             font-weight: 400;
             font-size: 1.25rem;
         }
+
         .welcome-message {
             font-size: 0.8rem;
         }
     }
+
     .field-container {
         align-items: center;
+
         .register-button {
             width: 60%;
             text-align: center;
             font-size: 1.25rem;
         }
-    }  
+    }
 }
