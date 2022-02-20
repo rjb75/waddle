@@ -1,3 +1,5 @@
+@import '../../styles/colors.scss';
+
 .dashboard-section {
     &.engagement {
         .section-body {
@@ -36,6 +38,22 @@
                     rect {
                         rx: 6px;
                     }
+                }
+            }
+        }
+    }
+    &.htsupport {
+        .section-body {
+            flex-wrap: wrap;
+            .support-item-card {
+                padding: 5px;
+                margin: 10px;
+                width: 130px;
+                height: 130px;
+                background-color: $color-orange-dark;
+                border-radius: 30;
+                >img {
+                    height: 80%;
                 }
             }
         }
