@@ -272,7 +272,7 @@ func GetAllResponseWithUser(c *fiber.Ctx) error {
 	var stable []models.Response
 	for rows.Next() {
 		var s models.Response
-		err := result.Scan(&s.Response_id, &s.Data, &s.Date, &s.User_id, &s.Questions_id)
+		err := rows.Scan(&s.Response_id, &s.Data, &s.Date, &s.User_id, &s.Questions_id)
 		if err != nil {
 			fmt.Println(err)
 			return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
@@ -287,11 +287,9 @@ func GetAllResponseWithUser(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
 }
 
-
 func GetAllSuggestions(c *fiber.Ctx) error {
 	rows, err := DATABASE.Query("SELECT * FROM Suggestions;")
 
-	
 	if err != nil {
 		fmt.Println(err)
 		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
@@ -300,7 +298,7 @@ func GetAllSuggestions(c *fiber.Ctx) error {
 	var stable []models.Suggestion
 	for rows.Next() {
 		var s models.Suggestion
-		err := result.Scan(&s.Suggestion_id, &s.Suggestion, &s.Score)
+		err := rows.Scan(&s.Suggestion_id, &s.Suggestion, &s.Score)
 		if err != nil {
 			fmt.Println(err)
 			return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"})
@@ -314,5 +312,3 @@ func GetAllSuggestions(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": stable})
 }
-
-x
