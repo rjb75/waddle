@@ -1,11 +1,10 @@
+import os
+
 import httpx
 from app.dependencies import auth, models
 from fastapi import APIRouter, Depends, HTTPException
 
 router = APIRouter(prefix="/users", tags=["users"])
-
-# Change Later
-API_BASE_URL = "http://localhost:3000"
 
 
 @router.get("/me")
@@ -19,7 +18,7 @@ async def create_user(user_in: models.UserIn):
     user = models.UserIn(**user_in.dict(exclude={"password"}), password=hashed_password)
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            f"{API_BASE_URL}/api/v1/user",
+            f"{os.environ['BASE_API_URL']}/api/v1/user",
             data={
                 "Email": user.email,
                 "Pin": user.pin,
@@ -36,7 +35,7 @@ async def create_user(user_in: models.UserIn):
 @router.get("/{email}")
 async def get_user(email: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{API_BASE_URL}/api/v1/user/email/{email}")
+        response = await client.get(f"{os.environ['BASE_API_URL']}/api/v1/user/email/{email}")
         if response.json()["status"] == "success":
             return response.json()
         else:

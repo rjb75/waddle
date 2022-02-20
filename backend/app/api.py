@@ -1,9 +1,12 @@
+import dotenv
 from fastapi import Depends, FastAPI
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 
 from app.dependencies import auth
-from app.routers import questions, sentiment, responses, supports, users
+from app.routers import questions, responses, sentiment, supports, users
+
+dotenv.load_dotenv("../.env")
 
 app = FastAPI()
 app.include_router(responses.router)
