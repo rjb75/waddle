@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
 
+import httpx
 from app.dependencies import models
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -14,6 +15,9 @@ from pydantic import BaseModel
 SECRET_KEY = "119a35ad76d8a0734770d3eb926c7a0f56b34dfe785a0c46d58ada1425f49e4b"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+# Change Later
+API_BASE_URL = "http://localhost:3000"
 
 fake_users_db = {
     "johndoe": {
@@ -30,7 +34,7 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: Optional[str] = None
+    email: Optional[str] = None
 
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -46,15 +50,16 @@ def get_password_hash(password):
     return pwd_ctx.hash(password)
 
 
-def get_user(db, username: str):
-    # Will grab from Go
-    if username in db:
-        user_dict = db[username]
-        return models.UserInDB(**user_dict)
+async def get_user(email: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{API_BASE_URL}/api/v1/user/{email}")
+        if response.json()["status"] == "success":
+            user_dict = response.json()["data"]
+            return models.UserInDB(**user_dict)
 
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
+async def authenticate_user(email: str, password: str):
+    user = await get_user(email)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -78,20 +83,20 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        email: str = payload.get("sub")
+        if email is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(email=email)
     except JWTError:
         raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
+    user = await get_user(token_data.email)
     if user is None:
         raise credentials_exception
     return user
 
 
-async def get_access_token(username: str, password: str):
-    user = authenticate_user(fake_users_db, username, password)
+async def get_access_token(email: str, password: str):
+    user = await authenticate_user(email, password)
     if not user:
         raise HTTPException(
             status_code=401,
@@ -99,7 +104,5 @@ async def get_access_token(username: str, password: str):
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
+    access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
