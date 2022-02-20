@@ -1,0 +1,20 @@
+@import '../../styles/colors.scss';
+
+.level-container {
+    .level-control-container {
+        justify-content: center;
+        .slider-container {
+            .rc-slider-handle {
+                border-color: $color-orange-dark;
+                background-color: $color-orange-dark;
+            }
+            .rc-slider-track {
+                background-color: $color-blue-vibrant;
+            }
+            .rc-slider-dot, .rc-slider-dot-active {
+                border-color: $color-grey-light;
+                background-color: $color-grey-light;
+            }
+        }
+    }
+}
