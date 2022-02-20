@@ -26,6 +26,12 @@ async def f():
             'Pin': "51231"})
         return response.text
 
+@app.get('/db/user/:user')
+async def f():
+     async with httpx.AsyncClient() as client:
+        response = await client.get(url + "/api/v1/user/" + '12f1df04-9215-11ec-8022-122907f6e3b9')
+        return response.text
+
 @app.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     return await auth.get_access_token(form_data.username, form_data.password)
