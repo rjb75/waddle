@@ -1,21 +1,21 @@
-
-
 const Login = () => {
   return (
     <div>
       <form>
         <label>
-          Enter your Email
-          <input type="type" name="email" />
+          <input type="type" name="email" placeholder="Enter your Email" />
         </label>
         <label>
-          Enter your Password
-          <input type="type" name="password" />
+          <input
+            type="type"
+            name="password"
+            placeholder="Enter your Password"
+          />
         </label>
         <button>Sign In</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default Login;
