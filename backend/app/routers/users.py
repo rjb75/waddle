@@ -14,5 +14,5 @@ async def create_user(user_in: models.UserIn):
 
 
 @router.get("/me")
-async def read_current_user(current_user: auth.User = Depends(auth.get_current_user)):
+async def read_current_user(current_user: models.UserInDB = Depends(auth.get_current_user)):
     return current_user
