@@ -6,8 +6,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/gofiber/fiber/v2"
 	"db/wadle/models"
+
+	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
 )
 
@@ -44,20 +45,32 @@ func ExecuteSQLFile(filePath string) {
 }
 
 func GetUser(c *fiber.Ctx) error {
-	result := DATABASE.QueryRow("SELECT * FROM Users Where User_id='" + c.Params("user_id") + "';")
+	result := DATABASE.QueryRow("SELECT * FROM Users WHERE User_id='" + c.Params("user_id") + "';")
 
 	var user models.User
 	err := result.Scan(&user.Email, &user.Name, &user.Pin, &user.User_id)
 
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning success
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "data": user})
+}
+
+func GetUserByEmail(c *fiber.Ctx) error {
+	result := DATABASE.QueryRow("SELECT * FROM Users WHERE Email='" + c.Params("email") + "';")
+
+	var user models.User
+	err := result.Scan(&user.Email, &user.Name, &user.Pin, &user.User_id)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Querying Failed"}) //Returning failure
 	}
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "data": user})
 }
 
 func CreateUser(c *fiber.Ctx) error {
-    fmt.Println("HASDSAD")
 	//Load Model
 	user := new(models.User)
 	err := c.BodyParser(user)
@@ -68,16 +81,24 @@ func CreateUser(c *fiber.Ctx) error {
 		return nil
 	}
 	//Add to Database
+	// This (maybe) is the correct query but the database needs to be updated to store hashed user password
+	// row := DATABASE.QueryRow(
+	// 	`INSERT INTO Users VALUES($1, $2, $3, $4, DEFAULT);`,
+	// 	user.Email, user.Name, user.Pin, user.Password)
+	// username and password are being stored as empty strings?
 	row := DATABASE.QueryRow(
-		`INSERT INTO Users VALUES($1, $2, $3, DEFAULT);`,
+		"INSERT INTO Users VALUES($1, $2, $3, DEFAULT) RETURNING User_id;",
 		user.Email, user.Name, user.Pin)
 
 	//SQL Error Check
 	if row.Err() != nil {
 		fmt.Println(row.Err())
-		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Creating User failed"}) //Returning success
+		return c.Status(500).JSON(fiber.Map{"status": "fail", "type": "SQL: Creating User failed"}) //Returning failure
 	}
 
 	//Success
-	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating User"}) //Returning success
+	// TODO: pls return me the user_id of the user that was just created
+	// this just returns null :/
+	var User_id string
+	return c.Status(200).JSON(fiber.Map{"status": "success", "type": "Creating User", "uid": row.Scan(&User_id)}) //Returning success
 }
