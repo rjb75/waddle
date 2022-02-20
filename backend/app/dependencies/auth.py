@@ -36,6 +36,7 @@ def get_password_hash(password):
 async def get_user(email: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{os.environ['BASE_API_URL']}/api/v1/user/email/{email}")
+        print(email)
         if response.json()["status"] == "success":
             user_dict = response.json()["data"]
             return models.UserInDB(
@@ -92,6 +93,6 @@ async def get_access_token(email: str, password: str):
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"])
+    access_token_expires = timedelta(minutes=int(os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"]))
     access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
